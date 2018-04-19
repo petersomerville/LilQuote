@@ -1,6 +1,6 @@
 import re
 from flask import Flask, session, request, redirect, render_template, flash, url_for
-
+from db.data_layer import get_user_by_email, get_user_by_id, create_user
 import db.data_layer as db
 '''
 USAGE:        db.<function_name>
@@ -19,7 +19,10 @@ def index():
 
 @app.route('/create_quote', methods=['POST'])
 def create_quote():
-    pass
+    user_id = session['user_id']
+    content = request.form['html_content']
+    quote = db.create_quote(user_id, content)
+    return redirect(url_for('index'))
 
 @app.route('/delete/<quote_id>')
 def delete_quote(quote_id):
@@ -48,13 +51,13 @@ def authenticate():
 def login():
     
     try:
-        user = get_user_by_email(request.form['html_email'])    
+        user = get_user_by_email(request.form['html_email'])
         if user.password == request.form['html_password']:
             session['user_id'] = user.id
-            session['username'] = user.name
+            session['username'] = user.username
             return redirect(url_for('index'))
     except:
-        pass    
+        raise    
 
     flash('Invalid login')
     return redirect(url_for('authenticate'))
@@ -86,7 +89,7 @@ def register():
 
     user = create_user(email, username, password)
     session['user_id'] = user.id
-    session['username'] = user.name
+    session['username'] = user.username
 
     return redirect(url_for('index'))
 

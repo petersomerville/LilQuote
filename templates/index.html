@@ -1,14 +1,14 @@
-{% extends 'base.html' %} 
+{% extends 'base.html' %} {% block body %} {% if session.user_id %}
+<form action="{{url_for('create_quote')}}" method="POST">
+    <div class="form-group">
+        <h2 class="my-3">What's poppin?</h2>
+        <input type="text" name="html_content" placeholder="Say something..." class="form-control">
+    </div>
+    <button type="submit" class="btn btn-success">Say it!</button>
+</form>
 
-{% block body %}  
-
-{% if session.user_id %}
-    <h1>Hello {{session.username}}</h1>
-    <a href="{{url_for('logout')}}" class="btn btn-primary">Logout</a>
 
 {% else %}
-    <h2 class="errormessage">You are not logged in</h2>
-    <a href="{{url_for('authenticate')}}" class="btn btn-primary">Login or Register</a>
-{% endif %}
-
-{% endblock %}
+<h2 class="errormessage">You are not logged in</h2>
+<a href="{{url_for('authenticate')}}" class="btn btn-primary">Login or Register</a>
+{% endif %} {% endblock %}
