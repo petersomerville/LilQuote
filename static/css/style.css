@@ -11,8 +11,14 @@
     border-left: 5px solid #ddd;
 }
 
-.navbar {
-    background-color: blue;
+.tab-pane {
+    padding: 20px;
+    border-left: 1px solid #eee;
+    box-shadow: 4px 4px 4px rgba(0, 0, 0, 0.5);
+}
+
+.errormessage {
+    color: green;
 }
 
 .user p {

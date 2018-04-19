@@ -37,24 +37,71 @@ def search_users(query):
 def user_quotes(user_id):
     pass
 
-@app.route('/authenticate')
-def authenticate():
-    pass
-
-@app.route('/login', methods=['POST'])
-def login():
-    pass
-
-@app.route('/register', methods=['POST'])
-def register():
-    pass
-
-@app.route('/logout')
-def logout():
-    pass
-
 def setup_web_session(user):
     pass
 
+@app.route('/authenticate')
+def authenticate():
+    return render_template('authenticate.html')
+
+@app.route('/login', methods = ['POST'])
+def login():
+    
+    try:
+        user = get_user_by_email(request.form['html_email'])    
+        if user.password == request.form['html_password']:
+            session['user_id'] = user.id
+            session['username'] = user.name
+            return redirect(url_for('index'))
+    except:
+        pass    
+
+    flash('Invalid login')
+    return redirect(url_for('authenticate'))
+
+@app.route('/register', methods = ['POST'])
+def register():
+    email = request.form['html_email']
+    username = request.form['html_username']
+    password = request.form['html_password']
+    confirm = request.form['html_confirm']
+
+    is_valid = True
+
+    if is_empty('email', request.form):
+        is_valid = False
+    
+    if is_empty('username', request.form):
+        is_valid = False
+    
+    if is_empty('password', request.form):
+        is_valid = False
+
+    if password != confirm:
+        flash('passwords do not match')
+        is_valid = False
+
+    if is_valid == False:
+        return redirect(url_for('authenticate'))
+
+    user = create_user(email, username, password)
+    session['user_id'] = user.id
+    session['username'] = user.name
+
+    return redirect(url_for('index'))
+
+@app.route('/logout')
+def logout():
+    session.clear()
+    return redirect(url_for('index'))
+
+def is_empty(field, form):
+    key = 'html_{}'.format(field)
+    value = form[key]
+    empty = False
+    if not len(value) > 0:
+        empty = True
+        flash('{} is empty'.format(field))
+    return empty
 
 app.run(debug=True)
