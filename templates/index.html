@@ -1,5 +1,5 @@
 {% extends 'base.html' %} {% block body %} {% if session.user_id %}
-<form action="{{url_for('create_quote')}}" method="POST">
+<form action="{{url_for('create_quote')}}" method="POST" class="my-3">
     <div class="form-group">
         <h2 class="my-3">What's poppin?</h2>
         <input type="text" name="html_content" placeholder="Say something..." class="form-control">
@@ -7,8 +7,12 @@
     <button type="submit" class="btn btn-success">Say it!</button>
 </form>
 
+{% include 'quotes.html' %} 
 
 {% else %}
 <h2 class="errormessage">You are not logged in</h2>
 <a href="{{url_for('authenticate')}}" class="btn btn-primary">Login or Register</a>
+
+{% include 'navbar.html' %}
+
 {% endif %} {% endblock %}

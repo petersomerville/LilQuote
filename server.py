@@ -1,6 +1,6 @@
 import re
 from flask import Flask, session, request, redirect, render_template, flash, url_for
-from db.data_layer import get_user_by_email, get_user_by_id, create_user
+from db.data_layer import get_user_by_email, get_user_by_id, create_user, get_all_quotes, create_quote
 import db.data_layer as db
 '''
 USAGE:        db.<function_name>
@@ -15,7 +15,8 @@ app.secret_key = '0d599f0ec05c3bda8c3b8a68c32a1b47'
 
 @app.route('/')
 def index():
-    return render_template('index.html')
+    db_quotes = db.get_all_quotes()
+    return render_template('index.html', quotes = db_quotes)
 
 @app.route('/create_quote', methods=['POST'])
 def create_quote():
