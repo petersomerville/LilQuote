@@ -5,7 +5,7 @@ from db.entities import User, Quote
 db = DbManager()
 
 def get_all_quotes():
-    return db.open().query(Quote).filter().all()
+    return db.open().query(Quote).order_by(Quote.created_at.desc()).filter().all()
 
 def get_all_quotes_for(user_id):
     pass
