@@ -10,9 +10,8 @@
 {% include 'quotes.html' %} 
 
 {% else %}
-<h2 class="errormessage">You are not logged in</h2>
-<a href="{{url_for('authenticate')}}" class="btn btn-primary">Login or Register</a>
 
-{% include 'navbar.html' %}
+<div class="mt-5"></div>
+{% include 'quotes.html' %}
 
 {% endif %} {% endblock %}

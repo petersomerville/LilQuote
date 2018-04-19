@@ -20,7 +20,8 @@ def create_quote(user_id, content):
     return db.save(quote)
 
 def delete_quote(quote_id):
-    pass
+    quote = db.open().query(Quote).filter(Quote.id == quote_id).one()
+    return db.delete(quote)
 
 def get_user_by_id(user_id):
     pass

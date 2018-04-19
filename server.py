@@ -1,6 +1,6 @@
 import re
 from flask import Flask, session, request, redirect, render_template, flash, url_for
-from db.data_layer import get_user_by_email, get_user_by_id, create_user, get_all_quotes, create_quote
+from db.data_layer import get_user_by_email, get_user_by_id, create_user, get_all_quotes, create_quote, delete_quote
 import db.data_layer as db
 '''
 USAGE:        db.<function_name>
@@ -26,8 +26,9 @@ def create_quote():
     return redirect(url_for('index'))
 
 @app.route('/delete/<quote_id>')
-def delete_quote(quote_id):
-    pass
+def delete_a_quote(quote_id):
+    db.delete_quote(quote_id)
+    return redirect(url_for('index'))
 
 @app.route('/search')
 def search():
